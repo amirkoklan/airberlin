@@ -24,12 +24,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             td,th {
                 padding: 10px;
             }
+            .form-group {
+                margin-bottom: 15px;
+            }
         </style>
     </head>
     <body>
         <div class="container">
-
+            <form name="add" class="add-mile form-horizontal col-sm-12" method="post">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="departure">Departure</label>
+                    <input type="text" class="col-sm-10 form-control" id="departure" name="departure" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="destination">Destination</label>
+                    <input type="text" class="col-sm-10 form-control" id="destination" name="destination" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="bookingdate_from">Booking Date-From</label>
+                    <input type="text" class="col-sm-10 form-control" id="bookingdate_from" name="bookingdate_from" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="bookingdate_to">Booking Date-To</label>
+                    <input type="text" class="col-sm-10 form-control" id="bookingdate_to" name="bookingdate_to" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="flightdate_from">Flight Date-From</label>
+                    <input type="text" class="col-sm-10 form-control" id="flightdate_from" name="flightdate_from" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="flightdate_to">Flight Date-To</label>
+                    <input type="text" class="col-sm-10 form-control" id="flightdate_to" name="flightdate_to" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="amount">Amount</label>
+                    <input type="text" class="col-sm-10 form-control" id="amount" name="amount" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </body>
 </html>
-
