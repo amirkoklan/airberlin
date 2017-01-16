@@ -7,8 +7,15 @@ class Add extends CI_Controller {
             $this->load->view('add',$data);
         }
     public function addNewMile(){
-       var_dump($this->input->get()); 
-
+        $this->load->model('database_model');
+        if($this->database_model->insert($this->input->post())){
+            header('Content-Type: application/json');
+            echo json_encode( "Your data has been saved into DB!" );
+            exit;
+        }        
+        header('Content-Type: application/json');
+        echo json_encode( "Your data has not been saved into DB!" );  
+        exit;
     }
 }
 

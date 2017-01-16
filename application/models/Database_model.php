@@ -42,9 +42,8 @@ class Database_model extends CI_Model {
         return $results;
     }
     public function insert($data){
-        $query = $this->db->inset('mileage_credit', array('departure' => $departure,'destination'=>$destination));
-        $results = $query->result();
-        return $results;
+        $result = $this->db->insert('mileage_credit', $data);
+        return $result;
     }
 
 }

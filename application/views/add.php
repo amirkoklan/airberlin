@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
         <!-- Latest compiled and minified CSS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
 
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -42,11 +43,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         event.preventDefault();
         $(".add-mile").ajaxSubmit({
             type: 'post',
-            data: {location_id: $('#location_id').val()},
             target: "#resultUpdate",
             success: function () {
                 if ($('#resultUpdate .alert-success').length) {
-                    $(".attendence_form").trigger('reset');
+                    $(".add-mile").trigger('reset');
                 }
             }
         });
@@ -101,6 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <div id="resultUpdate"></div>
         </div>
     </body>
 </html>
