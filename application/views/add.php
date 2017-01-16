@@ -34,31 +34,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form name="add" class="add-mile form-horizontal col-sm-12" method="post">
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="departure">Departure</label>
-                    <input type="text" class="col-sm-10 form-control" id="departure" name="departure" />
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="departure" name="departure" />
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="destination">Destination</label>
-                    <input type="text" class="col-sm-10 form-control" id="destination" name="destination" />
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="destination" name="destination" />
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="bookingdate_from">Booking Date-From</label>
-                    <input type="text" class="col-sm-10 form-control" id="bookingdate_from" name="bookingdate_from" />
+                    <label class="col-sm-2 control-label" for="bookingdate_from">Booking Date - From</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="bookingdate_from" name="bookingdate_from" />
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="bookingdate_to">Booking Date-To</label>
-                    <input type="text" class="col-sm-10 form-control" id="bookingdate_to" name="bookingdate_to" />
+                    <label class="col-sm-2 control-label" for="bookingdate_to">Booking Date - To</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="bookingdate_to" name="bookingdate_to" />
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="flightdate_from">Flight Date-From</label>
-                    <input type="text" class="col-sm-10 form-control" id="flightdate_from" name="flightdate_from" />
+                    <label class="col-sm-2 control-label" for="flightdate_from">Flight Date - From</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="flightdate_from" name="flightdate_from" />
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="flightdate_to">Flight Date-To</label>
-                    <input type="text" class="col-sm-10 form-control" id="flightdate_to" name="flightdate_to" />
+                    <label class="col-sm-2 control-label" for="flightdate_to">Flight Date - To</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="flightdate_to" name="flightdate_to" />
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="amount">Amount</label>
-                    <input type="text" class="col-sm-10 form-control" id="amount" name="amount" />
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="amount" name="amount" />
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
