@@ -19,8 +19,4 @@ class Search extends CI_Controller {
             $data = array('destinations' => $destinations,'departures'=>$departures, 'searchResults' => $searchResutls);
             $this->load->view('search',$data);
         }
-        
-        public function save(){
-            
-        }
 }
