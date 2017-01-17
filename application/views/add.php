@@ -49,13 +49,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $(".add-mile").ajaxSubmit({
                         type: 'post',
                         complete: function (res) {
-                            console.log(res);
-                            $("#resultUpdate").html(res.responseText);
+                            $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
+                            getByID(res.responseText);
                             $(".add-mile").resetForm();
                         }
                     });
                 });
+                $('.edit').click(function () {
+                    $('input.id').val($(this).parent().siblings(".id").text());
+                    $('input#departure').val($(this).parent().siblings(".departure").text());
+                    $('input#destination').val($(this).parent().siblings(".destination").text());
+                    $('input#bookingdate_from').val($(this).parent().siblings(".bookingdate_from").text());
+                    $('input#bookingdate_to').val($(this).parent().siblings(".bookingdate_to").text());
+                    $('input#flightdate_from').val($(this).parent().siblings(".flightdate_from").text());
+                    $('input#flightdate_to').val($(this).parent().siblings(".flightdate_to").text());
+                    $('input#amount').val($(this).parent().siblings(".amount").text());
+
+                    $('input.id').val($(this).attr('edit-id'));
+                });
             });
+            function getByID(ID) {
+                $.ajax({
+                    url: "/add/getByID",
+                    type: 'post',
+                    data: {id: ID},
+                    dataType: 'json',
+                    complete: function (data) {
+                        var jsonObject = $.parseJSON(data.responseText);
+                        $('.all-miles > tbody:last-child').append('<tr><td>' + jsonObject.id + '</td><td>' + jsonObject.departure + '</td><td>' + jsonObject.destination + '</td><td>' + jsonObject.bookingdate_to + '</td><td>' + jsonObject.bookingdate_from + '</td><td>' + jsonObject.flightdate_from + '</td><td>' + jsonObject.flightdate_to + '</td><td>' + jsonObject.amount + '</td></tr>');
+                    }
+                });
+            }
         </script>
     </head>
     <body>
@@ -100,13 +124,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="amount">Amount</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="amount" name="amount" />
+                        <input type="number" class="form-control" id="amount" name="amount" required="required"/>
                     </div>
                 </div>
+                <input type="hidden" class="id" name="id">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <div id="resultUpdate"></div>
-            <div><?php var_dump($results); ?></div>
+            <div>
+                <?php if ($results): ?>
+                    <table class="table-hover table-striped all-miles">
+                        <tr>
+                            <th>id</th>
+                            <th>departure</th>
+                            <th>destination</th>
+                            <th>Booking Date - FROM</th>
+                            <th>Booking Date - To</th>
+                            <th>Flight Date - FROM</th>
+                            <th>Flight Date - To</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                        <?php foreach ($results as $searchResult): ?>
+                            <tr>
+                                <td class="id"><?php echo $searchResult->id ?></td>
+                                <td class="departure" ><?php echo $searchResult->departure ?></td>
+                                <td class="destination" ><?php echo $searchResult->destination ?></td>
+                                <td class="bookingdate_from" ><?php echo $searchResult->bookingdate_from ?></td>
+                                <td class="bookingdate_to" ><?php echo $searchResult->bookingdate_to ?></td>
+                                <td class="flightdate_from" ><?php echo $searchResult->flightdate_from ?></td>
+                                <td class="flightdate_to" ><?php echo $searchResult->flightdate_to ?></td>
+                                <td class="amount" ><?php echo $searchResult->amount ?></td>                                
+                                <td><a href="#" class="edit" edit-id="<?php echo $searchResult->id ?>" >Edit</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                <?php endif; ?>
+            </div>
         </div>
     </body>
 </html>

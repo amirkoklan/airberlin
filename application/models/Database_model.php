@@ -44,7 +44,7 @@ class Database_model extends CI_Model {
     }
     public function insert($data){
         $result = $this->db->insert('mileage_credit', $data);
-        return $result;
+        return $this->db->insert_id();
     }
 
 }
