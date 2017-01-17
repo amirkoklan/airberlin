@@ -32,8 +32,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <label for="departure">Departure</label>
                     <select class="form-control" name="departure" id="departure">   
-                        <?php foreach ($departures as $depature): ?>
-                            <option value="<?php echo $depature; ?>"><?php echo $depature; ?></option>
+                        <?php foreach ($departures as $departure): ?>
+                            <option value="<?php echo $departure; ?>" <?php if ($this->input->get('departure') === $departure): ?>selected<?php endif; ?> > <?php echo $departure; ?></option>
                         <?php endforeach; ?>  
                     </select>
                 </div>
@@ -41,14 +41,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <label for="departure">Departure</label>
                     <select class="form-control" name="destination">   
                         <?php foreach ($destinations as $destination): ?>
-                            <option value="<?php echo $destination; ?>"><?php echo $destination; ?></option>
-                        <?php endforeach; ?>  
+                            <option value="<?php echo $destination; ?>" <?php if ($this->input->get('destination')===$destination): ?>selected<?php endif; ?> > <?php echo $destination; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
             <?php if ($searchResults): ?>
+            <?php echo $this->input->get('departure'); ?> => <?php echo $this->input->get('destination'); ?>
                 <table class="table-hover table-striped">
                     <tr>
                         <th>id</th>
