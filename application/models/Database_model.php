@@ -6,12 +6,13 @@ class Database_model extends CI_Model {
         $this->load->database();
     }
 
-    public function get($table,$id) {
+    public function get($table, $id = NULL) {
         if ($id != FALSE) {
             $query = $this->db->get_where($table, array('id' => $id));
             return $query->row_array();
         } else {
-            return FALSE;
+            $query = $this->db->get($table);
+            return $query->result();
         }
     }
     public function getDepartures() {

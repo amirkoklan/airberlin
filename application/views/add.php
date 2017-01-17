@@ -36,22 +36,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             .form-group {
                 margin-bottom: 15px;
             }
+            #resultUpdate {
+                clear: both;
+                margin-top: 15px;
+                display: inline-block;
+            }
         </style>
         <script>
             $(document).ready(function () {
-    $('.add-mile').submit(function (event) {
-        event.preventDefault();
-        $(".add-mile").ajaxSubmit({
-            type: 'post',
-            target: "#resultUpdate",
-            success: function () {
-                if ($('#resultUpdate .alert-success').length) {
-                    $(".add-mile").trigger('reset');
-                }
-            }
-        });
-    });
-});
+                $('.add-mile').submit(function (event) {
+                    event.preventDefault();
+                    $(".add-mile").ajaxSubmit({
+                        type: 'post',
+                        complete: function (res) {
+                            console.log(res);
+                            $("#resultUpdate").html(res.responseText);
+                            $(".add-mile").resetForm();
+                        }
+                    });
+                });
+            });
         </script>
     </head>
     <body>
@@ -60,13 +64,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="departure">Departure</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="departure" name="departure" />
+                        <input type="text" class="form-control" id="departure" name="departure" required="requied"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="destination">Destination</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="destination" name="destination" />
+                        <input type="text" class="form-control" id="destination" name="destination" required="requied"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,6 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             <div id="resultUpdate"></div>
+            <div><?php var_dump($results); ?></div>
         </div>
     </body>
 </html>
