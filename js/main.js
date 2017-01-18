@@ -6,11 +6,11 @@ $(document).ready(function () {
             complete: function (res) {
                 if (res.responseText === '<div class="alert alert-error">Your data has not been saved into DB!</div>') {
                     $("#resultUpdate").html('<div class="alert alert-error">Your data has not been saved into DB!</div>');
-                    $(".add-mile").resetForm();
+                    //$(".add-mile").resetForm();
                 } else {
                     $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
                     getByID(res.responseText);
-                    $(".add-mile").resetForm();
+                    //$(".add-mile").resetForm();
                 }
             }
 
@@ -35,8 +35,10 @@ $(document).ready(function () {
     });
     $('.clear-form').on('click', function () {
         $('.add-mile').clearForm();
-        danger
         $('input.id').val('');
+    });
+    $(".datepicker").datepicker({
+        startDate: new Date()
     });
 });
 function getByID(ID) {
