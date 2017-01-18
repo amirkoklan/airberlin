@@ -12,20 +12,23 @@ class Add extends CI_Controller {
 
     public function addOrUpdateNewMile() {
         $this->load->model('database_model');
-        if (!$this->input->post()['id']) {
-            $insert_id = $this->database_model->insert($this->input->post());
-            if ($insert_id) {
+        $postdata = $this->input->post();
+        $this->validateEntry($postdata);
+        if ($this->validateEntry($postdata)) {
+            if (!$this->input->post()['id']) {
+                $insert_id = $this->database_model->insert($postdata);
+                if ($insert_id) {
+                    header('Content-Type: application/json');
+                    echo $insert_id;
+                    exit;
+                }
+            } else {
+                $this->database_model->updateByID('mileage_credit', $postdata, $postdata['id']);
                 header('Content-Type: application/json');
-                echo $insert_id;
+                echo $postdata['id'];
                 exit;
             }
-        } else {
-            $this->database_model->updateByID('mileage_credit', $this->input->post(), $this->input->post()['id']);
-            header('Content-Type: application/json');
-            echo $this->input->post()['id'];
-            exit;
         }
-
         header('Content-Type: application/json');
         echo '<div class="alert alert-error">Your data has not been saved into DB!</div>';
         exit;
@@ -49,6 +52,10 @@ class Add extends CI_Controller {
             return json_encode($result);
         }
         return json_encode($result);
+    }
+
+    private function validateEntry($data) {
+       return false; 
     }
 
 }

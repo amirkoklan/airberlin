@@ -4,10 +4,16 @@ $(document).ready(function () {
         $(".add-mile").ajaxSubmit({
             type: 'post',
             complete: function (res) {
-                $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
-                getByID(res.responseText);
-                $(".add-mile").resetForm();
+                if (res.responseText === '<div class="alert alert-error">Your data has not been saved into DB!</div>') {
+                    $("#resultUpdate").html('<div class="alert alert-error">Your data has not been saved into DB!</div>');
+                    $(".add-mile").resetForm();
+                } else {
+                    $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
+                    getByID(res.responseText);
+                    $(".add-mile").resetForm();
+                }
             }
+
         });
     });
     $('button.edit').on("click", function () {
