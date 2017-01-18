@@ -15,36 +15,48 @@ class Database_model extends CI_Model {
             return $query->result();
         }
     }
+
     public function getDepartures() {
 
-            $query = $this->db->get('mileage_credit');            
-            $results = $query->result();
-            $departures = array();
-            foreach ($results as $result){
-               array_push($departures, $result->departure);
-            }
-            
-            return array_unique($departures);
+        $query = $this->db->get('mileage_credit');
+        $results = $query->result();
+        $departures = array();
+        foreach ($results as $result) {
+            array_push($departures, $result->departure);
+        }
+
+        return array_unique($departures);
     }
+
     public function getDestinations() {
 
-            $query = $this->db->get('mileage_credit');            
-            $results = $query->result();
-            $destinations = array();
-            foreach ($results as $result){
-               array_push($destinations, $result->destination);
-            }
-            
-            return array_unique($destinations);
+        $query = $this->db->get('mileage_credit');
+        $results = $query->result();
+        $destinations = array();
+        foreach ($results as $result) {
+            array_push($destinations, $result->destination);
+        }
+
+        return array_unique($destinations);
     }
-    public function getResultsByDestinationAndDeparture($departure,$destination){
-        $query = $this->db->get_where('mileage_credit', array('departure' => $departure,'destination'=>$destination));
+
+    public function getResultsByDestinationAndDeparture($departure, $destination) {
+        $query = $this->db->get_where('mileage_credit', array('departure' => $departure, 'destination' => $destination));
         $results = $query->result();
         return $results;
     }
-    public function insert($data){
+
+    public function insert($data) {
         $result = $this->db->insert('mileage_credit', $data);
         return $this->db->insert_id();
+    }
+
+    public function updateByID($table, $data, $id) {
+        $this->db->update($table, $data, array('id' => $id));
+    }
+
+    public function remove($table, $id) {
+        return $this->db->delete($table, array('id' => $id));
     }
 
 }

@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- Latest compiled and minified CSS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
         <script src="http://malsup.github.com/jquery.form.js"></script> 
-
+        <script type="text/javascript" src="/js/main.js"></script>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -41,50 +41,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 margin-top: 15px;
                 display: inline-block;
             }
-        </style>
-        <script>
-            $(document).ready(function () {
-                $('.add-mile').submit(function (event) {
-                    event.preventDefault();
-                    $(".add-mile").ajaxSubmit({
-                        type: 'post',
-                        complete: function (res) {
-                            $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
-                            getByID(res.responseText);
-                            $(".add-mile").resetForm();
-                        }
-                    });
-                });
-                $('.edit').click(function () {
-                    $('input.id').val($(this).parent().siblings(".id").text());
-                    $('input#departure').val($(this).parent().siblings(".departure").text());
-                    $('input#destination').val($(this).parent().siblings(".destination").text());
-                    $('input#bookingdate_from').val($(this).parent().siblings(".bookingdate_from").text());
-                    $('input#bookingdate_to').val($(this).parent().siblings(".bookingdate_to").text());
-                    $('input#flightdate_from').val($(this).parent().siblings(".flightdate_from").text());
-                    $('input#flightdate_to').val($(this).parent().siblings(".flightdate_to").text());
-                    $('input#amount').val($(this).parent().siblings(".amount").text());
-
-                    $('input.id').val($(this).attr('edit-id'));
-                });
-            });
-            function getByID(ID) {
-                $.ajax({
-                    url: "/add/getByID",
-                    type: 'post',
-                    data: {id: ID},
-                    dataType: 'json',
-                    complete: function (data) {
-                        var jsonObject = $.parseJSON(data.responseText);
-                        $('.all-miles > tbody:last-child').append('<tr><td>' + jsonObject.id + '</td><td>' + jsonObject.departure + '</td><td>' + jsonObject.destination + '</td><td>' + jsonObject.bookingdate_to + '</td><td>' + jsonObject.bookingdate_from + '</td><td>' + jsonObject.flightdate_from + '</td><td>' + jsonObject.flightdate_to + '</td><td>' + jsonObject.amount + '</td></tr>');
-                    }
-                });
+            td button {
+                margin-left: 15px;
             }
-        </script>
+        </style>
     </head>
     <body>
         <div class="container">
-            <form name="add" class="add-mile form-horizontal col-sm-12" action="add/addNewMile" method="post">
+            <form name="add" class="add-mile form-horizontal col-sm-12" action="add/addOrUpdateNewMile" method="post">
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="departure">Departure</label>
                     <div class="col-sm-10">
@@ -129,6 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <input type="hidden" class="id" name="id">
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="clear-form btn btn-danger">Clear Form</button>
             </form>
             <div id="resultUpdate"></div>
             <div>
@@ -145,19 +110,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Amount</th>
                             <th></th>
                         </tr>
-                        <?php foreach ($results as $searchResult): ?>
-                            <tr>
-                                <td class="id"><?php echo $searchResult->id ?></td>
-                                <td class="departure" ><?php echo $searchResult->departure ?></td>
-                                <td class="destination" ><?php echo $searchResult->destination ?></td>
-                                <td class="bookingdate_from" ><?php echo $searchResult->bookingdate_from ?></td>
-                                <td class="bookingdate_to" ><?php echo $searchResult->bookingdate_to ?></td>
-                                <td class="flightdate_from" ><?php echo $searchResult->flightdate_from ?></td>
-                                <td class="flightdate_to" ><?php echo $searchResult->flightdate_to ?></td>
-                                <td class="amount" ><?php echo $searchResult->amount ?></td>                                
-                                <td><a href="#" class="edit" edit-id="<?php echo $searchResult->id ?>" >Edit</a></td>
-                            </tr>
-                        <?php endforeach; ?>
+                        <tbody>
+                            <?php foreach ($results as $searchResult): ?>
+                                <tr>
+                                    <td class="id"><?php echo $searchResult->id ?></td>
+                                    <td class="departure" ><?php echo $searchResult->departure ?></td>
+                                    <td class="destination" ><?php echo $searchResult->destination ?></td>
+                                    <td class="bookingdate_from" ><?php echo $searchResult->bookingdate_from ?></td>
+                                    <td class="bookingdate_to" ><?php echo $searchResult->bookingdate_to ?></td>
+                                    <td class="flightdate_from" ><?php echo $searchResult->flightdate_from ?></td>
+                                    <td class="flightdate_to" ><?php echo $searchResult->flightdate_to ?></td>
+                                    <td class="amount" ><?php echo $searchResult->amount ?></td>                                
+                                    <td>
+                                        <button class="edit btn btn-info" edit-id="<?php echo $searchResult->id ?>" >Edit</button>
+                                        <button class="delete btn btn-danger" delete-id="<?php echo $searchResult->id ?>" >Delete</button>
+                                    </td>
+                                </tr>
+
+                            <?php endforeach; ?>
+                        </tbody>
                     </table>
                 <?php endif; ?>
             </div>
