@@ -28,6 +28,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </head>
     <body>
         <div class="container">
+            <a href="/search">Search</a>
+            <a href="/add">Add/Update</a>
+        </div>
+        <div class="container">
             <form class="search-form">
                 <div class="form-group">
                     <label for="departure">Departure</label>

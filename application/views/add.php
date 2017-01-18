@@ -48,6 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </head>
     <body>
         <div class="container">
+            <a href="/search">Search</a>
+            <a href="/add">Add/Update</a>
+        </div>
+        <div class="container">
             <form name="add" class="add-mile form-horizontal col-sm-12" action="add/addOrUpdateNewMile" method="post">
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="departure">Departure</label>
