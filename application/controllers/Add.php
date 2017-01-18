@@ -23,11 +23,6 @@ class Add extends CI_Controller {
                     echo $insert_id;
                     exit;
                 }
-            } else {
-                $this->database_model->updateByID('mileage_credit', $postdata, $postdata['id']);
-                header('Content-Type: application/json');
-                echo $postdata['id'];
-                exit;
             }
         } elseif ($postdata['id']) {
             $this->database_model->updateByID('mileage_credit', $postdata, $postdata['id']);
@@ -65,13 +60,16 @@ class Add extends CI_Controller {
         $results = $this->database_model->getResultsByDestinationAndDeparture($data['departure'], $data['destination']);
         $returnValue = FALSE;
         foreach ($results as $result) {
-            if ($this->datesOverlap($data['bookingdate_from'], $data['bookingdate_to'], $result->bookingdate_from, $result->bookingdate_to)) {
-                $returnValue = FALSE;
-                break;
-            } elseif ($this->datesOverlap($data['flightdate_from'], $data['flightdate_to'], $result->flightdate_from, $result->flightdate_to)) {
-                $returnValue = FALSE;
-                break;
+            if ($data['id'] == !$result->id) {
+                if ($this->datesOverlap($data['bookingdate_from'], $data['bookingdate_to'], $result->bookingdate_from, $result->bookingdate_to)) {
+                    $returnValue = FALSE;
+                    break;
+                } elseif ($this->datesOverlap($data['flightdate_from'], $data['flightdate_to'], $result->flightdate_from, $result->flightdate_to)) {
+                    $returnValue = FALSE;
+                    break;
+                }
             }
+
             $returnValue = TRUE;
         }
         return $returnValue;
