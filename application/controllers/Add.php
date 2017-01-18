@@ -3,7 +3,7 @@
 class Add extends CI_Controller {
 
     protected $max_date = "2099-12-31";
-    
+
     public function index() {
         $this->load->model('database_model');
         $data = array();
@@ -15,8 +15,8 @@ class Add extends CI_Controller {
     public function addOrUpdateNewMile() {
         $this->load->model('database_model');
         $postdata = $this->input->post();
-        if ($this->validateEntry($postdata)) {
-            if (!$this->input->post()['id']) {
+        if ($this->validateEntry($postdata) && !$postdata['id']) {
+            if (!$postdata['id']) {
                 $insert_id = $this->database_model->insert($postdata);
                 if ($insert_id) {
                     header('Content-Type: application/json');
@@ -29,6 +29,11 @@ class Add extends CI_Controller {
                 echo $postdata['id'];
                 exit;
             }
+        } elseif ($postdata['id']) {
+            $this->database_model->updateByID('mileage_credit', $postdata, $postdata['id']);
+            header('Content-Type: application/json');
+            echo $postdata['id'];
+            exit;
         }
         header('Content-Type: application/json');
         echo '<div class="alert alert-error">Your data has not been saved into DB!</div>';
@@ -59,7 +64,7 @@ class Add extends CI_Controller {
         $this->load->model('database_model');
         $results = $this->database_model->getResultsByDestinationAndDeparture($data['departure'], $data['destination']);
         $returnValue = FALSE;
-        foreach ($results as $result) {            
+        foreach ($results as $result) {
             if ($this->datesOverlap($data['bookingdate_from'], $data['bookingdate_to'], $result->bookingdate_from, $result->bookingdate_to)) {
                 $returnValue = FALSE;
                 break;
@@ -73,25 +78,25 @@ class Add extends CI_Controller {
     }
 
     private function datesOverlap($s_one, $e_one, $s_two, $e_two) {
-        if($s_one === "0000-00-00") {
-           $start_one = new DateTime(); 
-        } else {            
-           $start_one = new DateTime($s_one);
+        if ($s_one === "0000-00-00") {
+            $start_one = new DateTime();
+        } else {
+            $start_one = new DateTime($s_one);
         }
-        if($s_two === "0000-00-00") {
-           $start_two = new DateTime(); 
-        } else {            
-           $start_two = new DateTime($s_two);
+        if ($s_two === "0000-00-00") {
+            $start_two = new DateTime();
+        } else {
+            $start_two = new DateTime($s_two);
         }
-        if($e_one === "0000-00-00") {
-           $end_one = new DateTime($this->max_date); 
-        } else {            
-           $end_one = new DateTime($e_one);
+        if ($e_one === "0000-00-00") {
+            $end_one = new DateTime($this->max_date);
+        } else {
+            $end_one = new DateTime($e_one);
         }
-        if($e_two === "0000-00-00") {
-           $end_two = new DateTime($this->max_date); 
-        } else {            
-           $end_two = new DateTime($e_two);
+        if ($e_two === "0000-00-00") {
+            $end_two = new DateTime($this->max_date);
+        } else {
+            $end_two = new DateTime($e_two);
         }
 
         if ($start_one <= $end_two && $end_one >= $start_two) {
