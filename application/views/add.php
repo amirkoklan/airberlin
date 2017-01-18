@@ -103,6 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div>
                 <?php if ($results): ?>
                     <table class="table-hover table-striped all-miles">
+                        <thead>
                         <tr>
                             <th>id</th>
                             <th>departure</th>
@@ -114,6 +115,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Amount</th>
                             <th></th>
                         </tr>
+                        </thead>
                         <tbody>
                             <?php foreach ($results as $searchResult): ?>
                                 <tr>

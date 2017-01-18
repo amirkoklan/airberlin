@@ -4,13 +4,22 @@ $(document).ready(function () {
         $(".add-mile").ajaxSubmit({
             type: 'post',
             complete: function (res) {
-                if (res.responseText === '<div class="alert alert-error">Your data has not been saved into DB!</div>') {
+                if (res.responseText === 'false') {
                     $("#resultUpdate").html('<div class="alert alert-error">Your data has not been saved into DB!</div>');
                     //$(".add-mile").resetForm();
                 } else {
                     $("#resultUpdate").html('<div class="alert alert-success">Your data has been saved into DB!</div>');
-                    getByID(res.responseText);
-                    //$(".add-mile").resetForm();
+                    var IDs = [];
+                    var update = false;
+                    $('.all-miles td.id').each(function (key, value) {
+                        IDs.push(value.innerHTML);
+                    });
+                    if ($.inArray(res.responseText, IDs) !== -1) {
+                        update = $.inArray(res.responseText, IDs);
+                    } else {
+                        update = false;
+                    }
+                    getByID(res.responseText, update);
                 }
             }
 
@@ -41,15 +50,22 @@ $(document).ready(function () {
         startDate: new Date()
     });
 });
-function getByID(ID) {
+function getByID(ID, update) {
     $.ajax({
         url: "/add/getByID",
         type: 'post',
         data: {id: ID},
         dataType: 'json',
         complete: function (data) {
+
             var jsonObject = $.parseJSON(data.responseText);
-            $('.all-miles > tbody:last-child').append('<tr><td class="id" >' + jsonObject.id + '</td><td class="departure">' + jsonObject.departure + '</td><td class="destination">' + jsonObject.destination + '</td><td class="bookingdate_from">' + jsonObject.bookingdate_from + '</td><td class="bookingdate_to" >' + jsonObject.bookingdate_to + '</td><td class="flightdate_from" >' + jsonObject.flightdate_from + '</td><td class="flightdate_to">' + jsonObject.flightdate_to + '</td><td class="amount">' + jsonObject.amount + '</td><td><button class="edit btn btn-info" edit-id="' + jsonObject.id + '" >Edit</button><button class="delete btn btn-danger" delete-id="' + jsonObject.id + '" >Delete</button></td></tr>');
+            if (update !== 'false') {
+                var trchild = ".all-miles tbody tr:nth-child(" + (parseInt(update) + 1) + ")";
+                $(trchild).replaceWith('<tr><td class="id" >' + jsonObject.id + '</td><td class="departure">' + jsonObject.departure + '</td><td class="destination">' + jsonObject.destination + '</td><td class="bookingdate_from">' + jsonObject.bookingdate_from + '</td><td class="bookingdate_to" >' + jsonObject.bookingdate_to + '</td><td class="flightdate_from" >' + jsonObject.flightdate_from + '</td><td class="flightdate_to">' + jsonObject.flightdate_to + '</td><td class="amount">' + jsonObject.amount + '</td><td><button class="edit btn btn-info" edit-id="' + jsonObject.id + '" >Edit</button><button class="delete btn btn-danger" delete-id="' + jsonObject.id + '" >Delete</button></td></tr>');
+            } else {
+                $('.all-miles > tbody:last-child').append('<tr><td class="id" >' + jsonObject.id + '</td><td class="departure">' + jsonObject.departure + '</td><td class="destination">' + jsonObject.destination + '</td><td class="bookingdate_from">' + jsonObject.bookingdate_from + '</td><td class="bookingdate_to" >' + jsonObject.bookingdate_to + '</td><td class="flightdate_from" >' + jsonObject.flightdate_from + '</td><td class="flightdate_to">' + jsonObject.flightdate_to + '</td><td class="amount">' + jsonObject.amount + '</td><td><button class="edit btn btn-info" edit-id="' + jsonObject.id + '" >Edit</button><button class="delete btn btn-danger" delete-id="' + jsonObject.id + '" >Delete</button></td></tr>');
+            }
+
             $("tr td").on("click", ".delete", function () {
                 $(this).parent().parent().remove();
                 removeByID($(this).attr('delete-id'));

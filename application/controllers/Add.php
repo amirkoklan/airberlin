@@ -31,7 +31,7 @@ class Add extends CI_Controller {
             exit;
         }
         header('Content-Type: application/json');
-        echo '<div class="alert alert-error">Your data has not been saved into DB!</div>';
+        echo 'false';
         exit;
     }
 
@@ -59,8 +59,9 @@ class Add extends CI_Controller {
         $this->load->model('database_model');
         $results = $this->database_model->getResultsByDestinationAndDeparture($data['departure'], $data['destination']);
         $returnValue = FALSE;
-        foreach ($results as $result) {
-            if ($data['id'] == !$result->id) {
+        if($results){
+         foreach ($results as $result) {
+            if ($data['id'] ==! $result->id) {
                 if ($this->datesOverlap($data['bookingdate_from'], $data['bookingdate_to'], $result->bookingdate_from, $result->bookingdate_to)) {
                     $returnValue = FALSE;
                     break;
@@ -69,9 +70,11 @@ class Add extends CI_Controller {
                     break;
                 }
             }
-
             $returnValue = TRUE;
-        }
+        }   
+        }else {
+            $returnValue = TRUE;
+        } 
         return $returnValue;
     }
 
